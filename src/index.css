@@ -1,13 +1,16 @@
+@import url('./vendor/normalize.css');
+@import url('./vendor/fonts/fonts.css');
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  min-width: 320px;  
+  font-family: "Inter", Arial, sans-serif;  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  /* сглаживание шрифта */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  /* выше подгонка размера текста при изменении масштаба страницы */
+  text-rendering: optimizeLegibility;
+  /* выше определяет нужно ли применять к тексту кёрнинг и лигатуры */
 }
