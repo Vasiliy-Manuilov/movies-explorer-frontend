@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header';
-// import Main from '../Main/Main';
+import Main from '../Main/Main';
 // import Footer from '../Footer/Footer';
 // import Movies from '../Movies/Movies';
 // import SavedMovies from '../SavedMovies/SavedMovies';
@@ -14,7 +14,12 @@ function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path="/" element={<Header />}></Route>
+        <Route path="/" element={(
+        <>
+          <Header />
+          <Main />
+        </>  
+        )} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
