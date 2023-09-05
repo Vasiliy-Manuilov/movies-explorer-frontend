@@ -14,3 +14,15 @@
 .header__link {
   display: flex;
 }
+
+@media (max-width: 865px) {
+  .header {
+    padding: 18px 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 18px 14px;
+  }
+}
