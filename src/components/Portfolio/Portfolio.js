@@ -4,7 +4,6 @@ function Portfolio() {
   return (
     <section className="portfolio">
       <h3 className="portfolio__header">Портфолио</h3>
-
       <ul className="portfolio__list">
         <li className="portfolio__list-item">
           <a className="portfolio__link" href="https://github.com/Vasiliy-Manuilov/how-to-learn" target="_blank" rel="noreferrer">

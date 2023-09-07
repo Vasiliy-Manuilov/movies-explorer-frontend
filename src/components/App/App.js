@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
-// import Footer from '../Footer/Footer';
+import Footer from '../Footer/Footer';
 // import Movies from '../Movies/Movies';
 // import SavedMovies from '../SavedMovies/SavedMovies';
 // import Register from '../Register/Register';
@@ -18,6 +18,7 @@ function App() {
         <>
           <Header />
           <Main />
+          <Footer />
         </>  
         )} />
         <Route path="*" element={<PageNotFound />} />
