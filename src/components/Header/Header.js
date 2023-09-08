@@ -1,8 +1,10 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
+import NavAuth from '../NavAuth/NavAuth';
+import Navigation from '../Navigation/Navigation';
 import logo from '../../images/logo.svg';
 
-function Header() {
+function Header({loggedIn}) {
   return (
     <header className='header'>
       <Link to='/' className='header__link'>
@@ -12,6 +14,7 @@ function Header() {
           src={logo}
         />
       </Link>
+      {loggedIn ? <Navigation /> : <NavAuth />}
     </header>
   );
 }

@@ -1,0 +1,33 @@
+.navigation__link {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  text-decoration: none;
+  transition: opacity .2s linear;
+}
+
+.navigation__link:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.navigation__link_type_green {
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 32px;
+  margin: 0;
+  border-radius: 20px;
+  background-color: #2BE080;  
+}
+
+.navigation__link_type_green::after {
+  content: "";
+  width: 26px;
+  height: 26px;
+  background-color: #F9F9F9;
+  background: transparent url(../../images/icon-profile-menu.svg) right center / 11px no-repeat;
+}
