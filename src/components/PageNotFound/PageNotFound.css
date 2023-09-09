@@ -1,7 +1,7 @@
 .not-found {
   display: flex;
-  flex-direction: column;    
-  padding: 246px 0 60px;  
+  flex-direction: column;
+  padding: 246px 0 60px;
   text-align: center;
 }
 
@@ -19,18 +19,18 @@
   line-height: 19px;
 }
 
-.not-found__link {   
+.not-found__link {
   margin-top: 184px;
-  color: #3456F3;
+  color: #3456f3;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
   text-decoration: none;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .not-found__link:hover {
-  opacity: .7;
+  opacity: 0.7;
   cursor: pointer;
 }
 

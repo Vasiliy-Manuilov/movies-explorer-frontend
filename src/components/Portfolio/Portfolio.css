@@ -28,18 +28,19 @@
 .portfolio__link {
   display: flex;
   justify-content: space-between;
-  background: transparent url(../../images/arrow.svg) right center / 20px no-repeat;
+  background: transparent url(../../images/arrow.svg) right center / 20px
+    no-repeat;
   color: #000;
   font-size: 30px;
   font-weight: 400;
   line-height: 50px;
   text-decoration: none;
   letter-spacing: -0.04em;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .portfolio__link:hover {
-  opacity: .6;
+  opacity: 0.6;
   cursor: pointer;
 }
 

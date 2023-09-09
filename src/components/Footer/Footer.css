@@ -40,11 +40,11 @@
   font-weight: 400;
   line-height: 16px;
   text-decoration: none;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .footer__nav-link:hover {
-  opacity: .6;
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -78,13 +78,13 @@
   .footer__links {
     flex-direction: column;
   }
-  
+
   .footer__item {
     margin-bottom: 8px;
   }
 
-  .footer__link {  
-    margin: 0;  
+  .footer__link {
+    margin: 0;
     font-size: 12px;
   }
 }

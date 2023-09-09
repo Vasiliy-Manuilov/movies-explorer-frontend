@@ -14,14 +14,17 @@ function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path="/" element={(
-        <>
-          <Header loggedIn={true} />
-          <Main />
-          <Footer />
-        </>  
-        )} />
-        <Route path="*" element={<PageNotFound />} />
+        <Route
+          path='/'
+          element={
+            <>
+              <Header loggedIn={true} color='blue' />
+              <Main />
+              <Footer />
+            </>
+          }
+        />
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
     </div>
   );

@@ -20,6 +20,7 @@
 
 .about-me__info {
   position: relative;
+  z-index: -1;
 }
 
 .about-me__name {
@@ -49,16 +50,16 @@
   display: block;
   position: absolute;
   bottom: 0;
-  text-decoration: none;  
+  text-decoration: none;
   font-weight: 500;
   font-size: 14px;
-  line-height: 17px;  
+  line-height: 17px;
   color: #000;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .about-me__link:hover {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .about-me__avatar {
@@ -89,7 +90,7 @@
   .about-me__description {
     max-width: 360px;
     font-size: 12px;
-    line-height: 18px;    
+    line-height: 18px;
   }
 
   .about-me__avatar {
@@ -101,7 +102,7 @@
 @media (max-width: 600px) {
   .about-me {
     padding: 70px 14px;
-   }
+  }
 
   .about-me__header {
     padding: 1px 0 27px;
@@ -112,7 +113,7 @@
 
   .about-me__container {
     flex-direction: column-reverse;
-    align-items: center;    
+    align-items: center;
     margin-top: 60px;
   }
 

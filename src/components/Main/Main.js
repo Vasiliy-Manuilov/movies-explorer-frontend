@@ -7,13 +7,13 @@ import Portfolio from '../Portfolio/Portfolio';
 function Main() {
   return (
     <main>
-    <Promo />    
-    <AboutProject />
-    <Techs />
-    <AboutMe />
-    <Portfolio />
-  </main>
+      <Promo />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+      <Portfolio />
+    </main>
   );
 }
 
-export default Main; 
+export default Main;

@@ -11,6 +11,6 @@ function PageNotFound() {
       </Link>
     </main>
   );
-};
+}
 
 export default PageNotFound;

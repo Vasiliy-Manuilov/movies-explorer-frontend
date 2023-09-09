@@ -3,7 +3,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 18px 70px;
+}
+
+.header_theme_blue {
   background-color: #073042;
+}
+
+.header_theme_white {
+  background-color: #fff;
 }
 
 .header__logo {

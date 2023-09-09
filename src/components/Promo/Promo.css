@@ -41,11 +41,11 @@
   font-weight: 500;
   line-height: 16px;
   text-decoration: none;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .promo__link:hover {
-  opacity: .6;
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -74,7 +74,7 @@
   }
 
   .promo__text {
-    max-width: 260px;    
+    max-width: 260px;
     padding: 22px 0 0;
   }
 
@@ -106,7 +106,7 @@
     letter-spacing: -0.04em;
   }
 
-  .promo__text {        
+  .promo__text {
     padding: 24px 0 0;
   }
 
