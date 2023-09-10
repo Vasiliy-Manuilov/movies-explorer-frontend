@@ -16,6 +16,7 @@ function Navigation({ color }) {
           showMenu ? 'navigation_opened' : ''
         }`}
       >
+        <div className="navigation__container">
         <ul className='navigation__links'>
           <li className='navigation__links-item navigation__links-item_type_main'>
             <NavLink to='/' className='navigation__link'>
@@ -39,12 +40,13 @@ function Navigation({ color }) {
         >
           Аккаунт
         </Link>
+        </div>
       </nav>
       <button
         className={
           showMenu
-            ? 'navigation__btn-menu-close'
-            : `navigation__btn-menu navigation__btn-menu_theme_${color}`
+            ? 'btn-close-sidebar'
+            : `btn-burger btn-burger_theme_${color}`
         }
         type='button'
         onClick={handleToggleMenu}
