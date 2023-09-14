@@ -60,3 +60,27 @@
   background-color: white;  
   transform: translateX(19px);
 }
+
+@media (max-width: 865px) {
+  .filterCheckbox {
+    flex-direction: row-reverse; 
+    padding-top: 31px; 
+  }
+
+  .filterCheckbox__text {
+    margin: 0 17px 0 0;    
+  }
+}
+
+@media (max-width: 600px) {
+  .filterCheckbox {
+    justify-content: center;
+    padding-top: 39px;
+  }  
+
+  .filterCheckbox__text {
+    margin: 0 15px 2px 0; 
+    font-size: 11px;    
+    line-height: 18px;   
+  }
+}

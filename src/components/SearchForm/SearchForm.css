@@ -1,8 +1,8 @@
-.search {
+.search-film {
   padding: 69px 70px 48px;
 }
 
-.search__container {
+.search {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #e8e8e8;
@@ -35,4 +35,25 @@
 .search__button:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+@media (max-width: 865px) {
+  .search-film {
+    padding: 80px 30px 61px;
+  }
+
+  .search__input {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-film {
+    padding: 88px 14px 51px;
+  }
+
+  .search__input {
+    font-size: 18px;
+    line-height: 22px;
+  }
 }
