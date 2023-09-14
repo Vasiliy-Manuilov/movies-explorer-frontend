@@ -6,7 +6,7 @@ const savedFilms = [
   {
     id: 1,
     title: '33 слова о дизайне',
-    duration: '1ч42м',
+    duration: '1ч 42м',
     image: film1,
   },
   {

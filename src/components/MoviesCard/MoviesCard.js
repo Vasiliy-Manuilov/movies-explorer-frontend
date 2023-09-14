@@ -9,19 +9,20 @@ function MoviesCard({ card }) {
     setAddFavorite(!addFavorite);
   }
 
-  const { Location } = useLocation();
+  const {pathname}  = useLocation();
+  
   return (
     <li className='card'>
       <img src={card.image} alt={card.title} className='card__image'></img>
       <div className='card__element'>
         <p className='card__title'>{card.title}</p>
         <div className='card__buttons'>
-          {Location === '/saved-movies' ? (
+          {pathname === '/saved-movies' ? 
             <button
               type='button'
               className='card__button card__button_delete'
             />
-          ) : (
+           : 
             <button
               type='button'
               className={`card__button card__button${
@@ -29,7 +30,7 @@ function MoviesCard({ card }) {
               }`}
               onClick={handleFavorite}
             />
-          )}
+          }
         </div>
       </div>
       <p className='card__duration'>{card.duration}</p>

@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
-// import SavedMovies from '../SavedMovies/SavedMovies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 // import Register from '../Register/Register';
 // import Login from '../Login/Login';
 // import Profile from '../Profile/Profile';
@@ -30,6 +30,16 @@ function App() {
             <>
               <Header loggedIn={true} color='white' />
               <Movies />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path='/saved-movies'
+          element={
+            <>
+              <Header loggedIn={true} color='white' />
+              <SavedMovies />
               <Footer />
             </>
           }
