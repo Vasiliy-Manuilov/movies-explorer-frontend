@@ -5,9 +5,9 @@ import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
 // import Register from '../Register/Register';
 // import Login from '../Login/Login';
-// import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
@@ -41,6 +41,15 @@ function App() {
               <Header loggedIn={true} color='white' />
               <SavedMovies />
               <Footer />
+            </>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <>
+              <Header loggedIn={true} color='white' />
+              <Profile />             
             </>
           }
         />

@@ -28,8 +28,7 @@
   padding: 0;
   border: none;
   border-radius: 36px;
-  transition: opacity .2s linear;
-  background: #f9f9f9 ;
+  transition: opacity .2s linear;  
 }
 
 .card__button:hover {
@@ -38,11 +37,11 @@
 }
 
 .card__button_active {
-  background: url(../../images/icon__favorite-active.svg) center no-repeat;
+  background: #f9f9f9 url(../../images/icon__favorite-active.svg) center no-repeat;
 }
 
 .card__button_inactive {
-  background: url(../../images/icon__favorite-inactive.svg) center no-repeat;
+  background: #f9f9f9 url(../../images/icon__favorite-inactive.svg) center no-repeat;
 }
 
 .card__button_delete {
