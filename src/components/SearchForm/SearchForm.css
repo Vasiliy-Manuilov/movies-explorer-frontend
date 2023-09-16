@@ -1,0 +1,59 @@
+.search-film {
+  padding: 69px 70px 48px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 11px;
+}
+
+.search__input {
+  color: #a0a0a0;
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 34px;
+}
+
+.search__button {
+  padding: 6px 12px;
+  outline: none;
+  border: none;
+  border-radius: 48px;
+  background-color: #3456f3;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+  transition: opacity 0.2s linear;
+}
+
+.search__button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+@media (max-width: 865px) {
+  .search-film {
+    padding: 80px 30px 61px;
+  }
+
+  .search__input {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-film {
+    padding: 88px 14px 51px;
+  }
+
+  .search__input {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
