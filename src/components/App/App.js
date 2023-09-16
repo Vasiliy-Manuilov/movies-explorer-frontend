@@ -6,8 +6,8 @@ import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
-// import Register from '../Register/Register';
-// import Login from '../Login/Login';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
           path='/'
           element={
             <>
-              <Header loggedIn={true} color='blue' />
+              <Header loggedIn={false} color='blue' />
               <Main />
               <Footer />
             </>
@@ -49,10 +49,12 @@ function App() {
           element={
             <>
               <Header loggedIn={true} color='white' />
-              <Profile />             
+              <Profile />
             </>
           }
         />
+        <Route path='/signup' element={<Register />} />
+        <Route path='/signin' element={<Login />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
     </div>
