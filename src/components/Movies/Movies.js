@@ -10,9 +10,19 @@ function Movies() {
   const [errorText, setErrorText] = useState('');
   const [inputErrorText, setInputErrorText] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
-  const [width, setWidth] = useState(document.documentElement.clientWidth);
-  console.log(width);
-  // const clientWidth = document.documentElement.clientWidth;
+  const [width, setWidth] = useState(document.documentElement.clientWidth);  
+  const [visible, setVisible] = useState(0); 
+  
+  useEffect(() => {
+    if (width > 865 ) {
+      setVisible(16);
+    } else if (width <= 865 && width > 600) {
+      setVisible(8);
+    } else if (width <= 600) {
+      setVisible(5);
+    }
+  }, [width]);
+
   useEffect(() => {
     const handleResizeWindow = () =>
       setWidth(document.documentElement.clientWidth);
@@ -41,8 +51,7 @@ function Movies() {
       setCards(filterData);
       if (filterData.length === 0) {
         setErrorText('Ничего не найдено');
-      }
-      console.log(filterData);
+      }      
     } catch (err) {
       setErrorText(
         'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
@@ -62,7 +71,7 @@ function Movies() {
       />
       {isPreloader && <Preloader />}
       {errorText && <div className='movies__text-error'>{errorText}</div>}
-      {!isPreloader && <MoviesCardList cards={cards} />}
+      {!isPreloader && <MoviesCardList cards={cards} visible={visible} setVisible={setVisible} width={width} />}
     </main>
   );
 }
