@@ -1,12 +1,10 @@
 import './FilterCheckbox.css';
-import { useState } from 'react';
 
-function FilterCheckbox() {
-  const [tumbler, setTumbler] = useState(false);
+function FilterCheckbox({tumbler, setTumbler}) {    
   const switchTumbler = () => {
-    setTumbler(!tumbler);
-  }
-  console.log(tumbler);
+    setTumbler(!tumbler);        
+  }  
+
   return (
     <div className='filterCheckbox'>
       <label className='filterCheckbox__tumbler' htmlFor='checkbox'>

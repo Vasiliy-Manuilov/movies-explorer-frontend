@@ -2,26 +2,26 @@ import './SearchForm.css';
 import { useEffect, useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearchClick, inputErrorText, cancelingErrorText }) {
-  const [inputSearch, setInputSearch] = useState(''); 
-  const [inputLine, setInputLine] = useState('white');  
+function SearchForm({ onSearchClick, inputErrorText, cancelingErrorText, tumbler, setTumbler }) {
+  const [inputSearch, setInputSearch] = useState('');
+  const [inputLine, setInputLine] = useState('white');
 
-function activeCursor() {
-  setInputLine('blue');
-  if (inputErrorText) {
-    cancelingErrorText(false);
+  function activeCursor() {
+    setInputLine('blue');
+    if (inputErrorText) {
+      cancelingErrorText(false);
+    }
   }
-}
 
-function notActiveCursor() {
-  setInputLine('white');
-}
-
-useEffect(() => {
-  if(inputErrorText) {
-    setInputLine('red');
+  function notActiveCursor() {
+    setInputLine('white');
   }
-},[inputErrorText])
+
+  useEffect(() => {
+    if (inputErrorText) {
+      setInputLine('red');
+    }
+  }, [inputErrorText]);
 
   function handleInputChange(evt) {
     setInputSearch(evt.target.value);
@@ -32,11 +32,13 @@ useEffect(() => {
     onSearchClick(inputSearch);
   }
 
-
-
   return (
     <section className='search-film'>
-      <form className={`search search_type_${inputLine}`} onSubmit={handleSubmit} noValidate>
+      <form
+        className={`search search_type_${inputLine}`}
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <input
           className='search__input'
           placeholder='Фильм'
@@ -47,12 +49,14 @@ useEffect(() => {
           onBlur={notActiveCursor}
           required
         />
-        <span className='search__error'>{inputErrorText && 'Нужно ввести ключевое слово'}</span>
+        <span className='search__error'>
+          {inputErrorText && 'Нужно ввести ключевое слово'}
+        </span>
         <button type='submit' className='search__button'>
           Найти
         </button>
       </form>
-      <FilterCheckbox />
+      <FilterCheckbox tumbler={tumbler} setTumbler={setTumbler} />
     </section>
   );
 }

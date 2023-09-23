@@ -7,14 +7,26 @@ import { useEffect, useState } from 'react';
 
 function Movies() {
   const [cards, setCards] = useState([]);
+  const [filterCards, setfilterCards] = useState([]);
   const [errorText, setErrorText] = useState('');
   const [inputErrorText, setInputErrorText] = useState(false);
   const [isPreloader, setIsPreloader] = useState(false);
-  const [width, setWidth] = useState(document.documentElement.clientWidth);  
-  const [visible, setVisible] = useState(0); 
-  
+  const [width, setWidth] = useState(document.documentElement.clientWidth);
+  const [visible, setVisible] = useState(0);
+  const [tumbler, setTumbler] = useState(false);
+
+  //Переключатель короткометражек
   useEffect(() => {
-    if (width > 865 ) {
+    if (tumbler === true) {
+      setfilterCards(cards.filter(({ duration }) => duration <= 40));
+    } else {
+      setfilterCards(cards);
+    }
+  }, [cards, tumbler]);
+
+  // рендер карточек в зависимости от ширины экрана
+  useEffect(() => {
+    if (width > 865) {
       setVisible(16);
     } else if (width <= 865 && width > 600) {
       setVisible(8);
@@ -23,17 +35,21 @@ function Movies() {
     }
   }, [width]);
 
+  // слушатель изменения ширины экрана
   useEffect(() => {
     const handleResizeWindow = () =>
       setWidth(document.documentElement.clientWidth);
-    window.addEventListener('resize', () => {setTimeout(() => {        
-      handleResizeWindow ();
-    }, 2000)});
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        handleResizeWindow();
+      }, 2000);
+    });
     return () => {
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
 
+  //запрос за карточками
   const searchFilms = async (inputSearch) => {
     if (!inputSearch) {
       setInputErrorText(true);
@@ -51,7 +67,7 @@ function Movies() {
       setCards(filterData);
       if (filterData.length === 0) {
         setErrorText('Ничего не найдено');
-      }      
+      }
     } catch (err) {
       setErrorText(
         'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
@@ -68,10 +84,19 @@ function Movies() {
         onSearchClick={searchFilms}
         inputErrorText={inputErrorText}
         cancelingErrorText={setInputErrorText}
+        tumbler={tumbler}
+        setTumbler={setTumbler}
       />
       {isPreloader && <Preloader />}
       {errorText && <div className='movies__text-error'>{errorText}</div>}
-      {!isPreloader && <MoviesCardList cards={cards} visible={visible} setVisible={setVisible} width={width} />}
+      {!isPreloader && (
+        <MoviesCardList
+          cards={filterCards}
+          visible={visible}
+          setVisible={setVisible}
+          width={width}
+        />
+      )}
     </main>
   );
 }
