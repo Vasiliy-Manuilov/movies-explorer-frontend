@@ -6,6 +6,15 @@ function SearchForm({ onSearchClick, inputErrorText, cancelingErrorText, tumbler
   const [inputSearch, setInputSearch] = useState('');
   const [inputLine, setInputLine] = useState('white');
 
+
+  useEffect(() => {
+    const storageSearch = localStorage.getItem('inputSearch');
+    if (storageSearch.length > 0) {
+      setInputSearch(storageSearch);      
+    }
+    // eslint-disable-next-line
+  }, []);
+
   function activeCursor() {
     setInputLine('blue');
     if (inputErrorText) {

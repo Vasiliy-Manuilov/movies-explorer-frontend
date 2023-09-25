@@ -4,6 +4,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import * as moviesApi from '../../utils/MoviesApi';
 import { useEffect, useState } from 'react';
+// import {useToggleCheckbox} from '../Hooks/useToggleCheckbox';
 
 function Movies() {
   const [cards, setCards] = useState([]);
@@ -15,16 +16,24 @@ function Movies() {
   const [visible, setVisible] = useState(0);
   const [tumbler, setTumbler] = useState(false);
 
-  //Переключатель короткометражек
+//Переключатель короткометражек
   useEffect(() => {
     if (tumbler === true) {
-      setfilterCards(cards.filter(({ duration }) => duration <= 40));
+      setfilterCards(cards.filter(({ duration }) => duration <= 40));                 
     } else {
-      setfilterCards(cards);
+      setfilterCards(cards);   
     }
   }, [cards, tumbler]);
 
-  // рендер карточек в зависимости от ширины экрана
+//загрузка карточек из localStorage  
+  useEffect(() => {
+    const storageCards = JSON.parse(localStorage.getItem('cards'));         
+    if(storageCards && cards.length === 0) {
+      setCards(storageCards);           
+    }       
+},[cards]);
+
+// рендер карточек в зависимости от ширины экрана
   useEffect(() => {
     if (width > 865) {
       setVisible(16);
@@ -35,7 +44,7 @@ function Movies() {
     }
   }, [width]);
 
-  // слушатель изменения ширины экрана
+// слушатель изменения ширины экрана
   useEffect(() => {
     const handleResizeWindow = () =>
       setWidth(document.documentElement.clientWidth);
@@ -49,7 +58,7 @@ function Movies() {
     };
   }, []);
 
-  //запрос за карточками
+//запрос за карточками
   const searchFilms = async (inputSearch) => {
     if (!inputSearch) {
       setInputErrorText(true);
@@ -63,15 +72,22 @@ function Movies() {
         ({ nameRU, nameEN }) =>
           nameRU.toLowerCase().includes(inputSearch.toLowerCase()) ||
           nameEN.toLowerCase().includes(inputSearch.toLowerCase())
-      );
-      setCards(filterData);
+      ); 
+      setCards(filterData);      
       if (filterData.length === 0) {
         setErrorText('Ничего не найдено');
+        localStorage.removeItem('inputSearch');
+        localStorage.removeItem('cards');
+      } else if (filterData.length > 0) {
+        localStorage.setItem('cards', JSON.stringify(filterData));
+        localStorage.setItem('inputSearch', inputSearch);
       }
     } catch (err) {
       setErrorText(
         'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
       );
+      localStorage.removeItem('inputSearch');
+      localStorage.removeItem('cards');
       console.error(err);
     } finally {
       setIsPreloader(false);
