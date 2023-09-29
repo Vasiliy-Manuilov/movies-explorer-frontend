@@ -3,114 +3,45 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import * as moviesApi from '../../utils/MoviesApi';
-import { useEffect, useState } from 'react';
-// import {useToggleCheckbox} from '../Hooks/useToggleCheckbox';
+import {useSearchMovies} from "../Hooks/useSeachMovies";
+import {LARGE_SCREEN_SIZE, MEDIUM_SCREEN_SIZE, SMALL_SCREEN_SIZE, useScreenSize} from "../Hooks/useScreenSize";
+import {useMoviesPagination} from "../Hooks/useMoviesPagination";
+import {useShortsMoviesFilter} from "../Hooks/useShortsMoviesFilter";
+
+const limitsByScreenSize = {
+  [LARGE_SCREEN_SIZE]: { limit: 16, paginationLimit: 4 },
+  [MEDIUM_SCREEN_SIZE]: { limit: 8, paginationLimit: 2 },
+  [SMALL_SCREEN_SIZE]: { limit: 5, paginationLimit: 1 },
+}
+
+const getInitialMovies = () => JSON.parse(localStorage.getItem('cards'))
+const getInitialMoviesSearchText = () => localStorage.getItem('inputSearch')
 
 function Movies() {
-  const [cards, setCards] = useState([]);
-  const [filterCards, setfilterCards] = useState([]);
-  const [errorText, setErrorText] = useState('');
-  const [inputErrorText, setInputErrorText] = useState(false);
-  const [isPreloader, setIsPreloader] = useState(false);
-  const [width, setWidth] = useState(document.documentElement.clientWidth);
-  const [visible, setVisible] = useState(0);
-  const [tumbler, setTumbler] = useState(false);
+  const screenSize = useScreenSize()
 
-//Переключатель короткометражек
-  useEffect(() => {
-    if (tumbler === true) {
-      setfilterCards(cards.filter(({ duration }) => duration <= 40));                 
-    } else {
-      setfilterCards(cards);   
-    }
-  }, [cards, tumbler]);
+  const { movies, isLoading, error, search } = useSearchMovies(moviesApi.getMovies, getInitialMovies)
+  const { filteredMovies, setShortsOnly, shortsOnly } = useShortsMoviesFilter(movies)
+  const { paginatedMovies, loadMore, hasMore } = useMoviesPagination(filteredMovies, limitsByScreenSize[screenSize])
 
-//загрузка карточек из localStorage  
-  useEffect(() => {
-    const storageCards = JSON.parse(localStorage.getItem('cards'));         
-    if(storageCards && cards.length === 0) {
-      setCards(storageCards);           
-    }       
-},[cards]);
-
-// рендер карточек в зависимости от ширины экрана
-  useEffect(() => {
-    if (width > 865) {
-      setVisible(16);
-    } else if (width <= 865 && width > 600) {
-      setVisible(8);
-    } else if (width <= 600) {
-      setVisible(5);
-    }
-  }, [width]);
-
-// слушатель изменения ширины экрана
-  useEffect(() => {
-    const handleResizeWindow = () =>
-      setWidth(document.documentElement.clientWidth);
-    window.addEventListener('resize', () => {
-      setTimeout(() => {
-        handleResizeWindow();
-      }, 2000);
-    });
-    return () => {
-      window.removeEventListener('resize', handleResizeWindow);
-    };
-  }, []);
-
-//запрос за карточками
-  const searchFilms = async (inputSearch) => {
-    if (!inputSearch) {
-      setInputErrorText(true);
-      return false;
-    }
-    setIsPreloader(true);
-    setErrorText('');
-    try {
-      const data = await moviesApi.getMovies();
-      let filterData = data.filter(
-        ({ nameRU, nameEN }) =>
-          nameRU.toLowerCase().includes(inputSearch.toLowerCase()) ||
-          nameEN.toLowerCase().includes(inputSearch.toLowerCase())
-      ); 
-      setCards(filterData);      
-      if (filterData.length === 0) {
-        setErrorText('Ничего не найдено');
-        localStorage.removeItem('inputSearch');
-        localStorage.removeItem('cards');
-      } else if (filterData.length > 0) {
-        localStorage.setItem('cards', JSON.stringify(filterData));
-        localStorage.setItem('inputSearch', inputSearch);
-      }
-    } catch (err) {
-      setErrorText(
-        'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-      );
-      localStorage.removeItem('inputSearch');
-      localStorage.removeItem('cards');
-      console.error(err);
-    } finally {
-      setIsPreloader(false);
-    }
-  };
+  let errorText = ""
+  if (error) errorText = error
+  else if (filteredMovies && filteredMovies.length === 0) errorText = "Ничего не найдено"
 
   return (
     <main className='movies'>
       <SearchForm
-        onSearchClick={searchFilms}
-        inputErrorText={inputErrorText}
-        cancelingErrorText={setInputErrorText}
-        tumbler={tumbler}
-        setTumbler={setTumbler}
+        onSearch={search}
+        getDefaultSearchText={getInitialMoviesSearchText}
+        tumbler={shortsOnly}
+        setTumbler={setShortsOnly}
       />
-      {isPreloader && <Preloader />}
-      {errorText && <div className='movies__text-error'>{errorText}</div>}
-      {!isPreloader && (
+      {isLoading && <Preloader />}
+      {errorText && !isLoading && <div className='movies__text-error'>{errorText}</div>}
+      {!isLoading && paginatedMovies && (
         <MoviesCardList
-          cards={filterCards}
-          visible={visible}
-          setVisible={setVisible}
-          width={width}
+          cards={paginatedMovies}
+          showMoreCards={hasMore ? loadMore : undefined}
         />
       )}
     </main>

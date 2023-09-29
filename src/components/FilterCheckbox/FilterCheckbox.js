@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
 import './FilterCheckbox.css';
 
+const STORAGE_TUMBLER_KEY = 'shortFilmsTumbler'
+const getStorageTumbler = () => JSON.parse(localStorage.getItem(STORAGE_TUMBLER_KEY));
+const setStorageTumbler = (tumbler) => localStorage.setItem(STORAGE_TUMBLER_KEY, tumbler);
+
 function FilterCheckbox({ tumbler, setTumbler }) {
   const switchTumbler = () => {
     setTumbler(!tumbler);
-    localStorage.setItem('shortFilmsTumbler', !tumbler);
+    setStorageTumbler(!tumbler)
   };
 
   useEffect(() => {
-    const storageTumbler = JSON.parse(
-      localStorage.getItem('shortFilmsTumbler')
-    );
+    const storageTumbler = getStorageTumbler()
+
     if (storageTumbler === true) {
       setTumbler(storageTumbler);
-      document.getElementById('checkbox').checked = tumbler;
     }
     // eslint-disable-next-line
   }, []);

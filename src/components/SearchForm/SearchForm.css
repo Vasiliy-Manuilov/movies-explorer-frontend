@@ -7,17 +7,12 @@
   justify-content: space-between;  
   padding-bottom: 11px;
   position: relative;
-}
-
-.search_type_white {
   border-bottom: 1px solid #e8e8e8;
 }
-
-.search_type_blue {
+.search_type_focus {
   border-bottom: 1px solid #3456F3;
 }
-
-.search_type_red {
+.search_type_invalid {
   border-bottom: 1px solid #FF3055;
 }
 
@@ -28,7 +23,7 @@
   border: none;
   font-size: 28px;
   font-weight: 500;
-  line-height: 34px; 
+  line-height: 34px;
 }
 
 .search__error {

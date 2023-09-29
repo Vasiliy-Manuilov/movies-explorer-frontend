@@ -1,65 +1,54 @@
 import './SearchForm.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearchClick, inputErrorText, cancelingErrorText, tumbler, setTumbler }) {
-  const [inputSearch, setInputSearch] = useState('');
-  const [inputLine, setInputLine] = useState('white');
+function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText }) {
+  const [inputSearch, setInputSearch] = useState(getDefaultSearchText);
+  const [isEmptyQueryError, setIsEmptyQueryError] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
-
-  useEffect(() => {
-    const storageSearch = localStorage.getItem('inputSearch');
-    if (storageSearch.length > 0) {
-      setInputSearch(storageSearch);      
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  function activeCursor() {
-    setInputLine('blue');
-    if (inputErrorText) {
-      cancelingErrorText(false);
-    }
+  const activateInput = () => {
+    setIsInputFocused(true)
+    setIsEmptyQueryError(false)
   }
-
-  function notActiveCursor() {
-    setInputLine('white');
-  }
-
-  useEffect(() => {
-    if (inputErrorText) {
-      setInputLine('red');
-    }
-  }, [inputErrorText]);
 
   function handleInputChange(evt) {
+    setIsEmptyQueryError(false)
     setInputSearch(evt.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSearchClick(inputSearch);
+    if (!inputSearch) {
+      setIsEmptyQueryError(true);
+      return;
+    }
+    onSearch(inputSearch);
   }
+
+  let searchTypeClass = ""
+  if (isEmptyQueryError) searchTypeClass = "search_type_invalid"
+  else if (isInputFocused) searchTypeClass = "search_type_focus"
 
   return (
     <section className='search-film'>
       <form
-        className={`search search_type_${inputLine}`}
+        className={`search ${searchTypeClass}`}
         onSubmit={handleSubmit}
         noValidate
       >
         <input
-          className='search__input'
+          className="search__input"
           placeholder='Фильм'
           type='text'
-          value={inputSearch}
+          value={inputSearch || ""}
           onChange={handleInputChange}
-          onFocus={activeCursor}
-          onBlur={notActiveCursor}
+          onFocus={activateInput}
+          onBlur={() => setIsInputFocused(false)}
           required
         />
         <span className='search__error'>
-          {inputErrorText && 'Нужно ввести ключевое слово'}
+          {isEmptyQueryError && 'Нужно ввести ключевое слово'}
         </span>
         <button type='submit' className='search__button'>
           Найти

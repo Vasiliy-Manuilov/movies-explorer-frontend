@@ -1,5 +1,4 @@
 import './App.css';
-import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -10,11 +9,8 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
     <div className='App'>
       <Routes>
@@ -22,7 +18,7 @@ function App() {
           path='/'
           element={
             <>
-              <Header loggedIn={isLoggedIn} color='blue' />
+              <Header loggedIn={false} color='blue' />
               <Main />
               <Footer />
             </>
@@ -31,36 +27,30 @@ function App() {
         <Route
           path='/movies'
           element={
-            <ProtectedRoute>
-              <>
-                <Header loggedIn={isLoggedIn} color='white' />
-                <Movies />
-                <Footer />
-              </>
-            </ProtectedRoute>
+            <>
+              <Header loggedIn={true} color='white' />
+              <Movies />
+              <Footer />
+            </>
           }
         />
         <Route
           path='/saved-movies'
           element={
-            <ProtectedRoute>
-              <>
-                <Header loggedIn={isLoggedIn} color='white' />
-                <SavedMovies />
-                <Footer />
-              </>
-            </ProtectedRoute>
+            <>
+              <Header loggedIn={true} color='white' />
+              <SavedMovies />
+              <Footer />
+            </>
           }
         />
         <Route
           path='/profile'
           element={
-            <ProtectedRoute>
-              <>
-                <Header loggedIn={isLoggedIn} color='white' />
-                <Profile />
-              </>
-            </ProtectedRoute>
+            <>
+              <Header loggedIn={true} color='white' />
+              <Profile />
+            </>
           }
         />
         <Route path='/signup' element={<Register />} />
