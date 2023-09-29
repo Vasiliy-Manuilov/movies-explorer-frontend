@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import './FilterCheckbox.css';
 
-const STORAGE_TUMBLER_KEY = 'shortFilmsTumbler'
-const getStorageTumbler = () => JSON.parse(localStorage.getItem(STORAGE_TUMBLER_KEY));
-const setStorageTumbler = (tumbler) => localStorage.setItem(STORAGE_TUMBLER_KEY, tumbler);
+const getStorageTumbler = (nameStorageKey) => JSON.parse(localStorage.getItem(nameStorageKey));
+const setStorageTumbler = ( nameStorageKey, tumbler) => localStorage.setItem(nameStorageKey, tumbler);
 
-function FilterCheckbox({ tumbler, setTumbler }) {
+function FilterCheckbox({ tumbler, setTumbler, nameStorageKey }) {
+
   const switchTumbler = () => {
     setTumbler(!tumbler);
-    setStorageTumbler(!tumbler)
+    setStorageTumbler( nameStorageKey, !tumbler)
   };
 
   useEffect(() => {
-    const storageTumbler = getStorageTumbler()
+    const storageTumbler = getStorageTumbler(nameStorageKey);
 
     if (storageTumbler === true) {
       setTumbler(storageTumbler);

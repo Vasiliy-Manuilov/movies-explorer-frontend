@@ -8,7 +8,7 @@ function getSearchedMovies(movies, searchQuery) {
     );
 }
 
-export function useSearchMovies(fetcher, getInitialMovies) {
+export function useSearchMovies(fetcher, getInitialMovies, localStorageCards, localStorageinputSearch ) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [movies, setMovies] = useState(getInitialMovies)
@@ -21,8 +21,8 @@ export function useSearchMovies(fetcher, getInitialMovies) {
             let filteredMovies = getSearchedMovies(movies, searchQuery);
             setMovies(filteredMovies);
             if (filteredMovies.length > 0) {
-                localStorage.setItem('cards', JSON.stringify(filteredMovies));
-                localStorage.setItem('inputSearch', searchQuery);
+                localStorage.setItem(localStorageCards, JSON.stringify(filteredMovies));
+                localStorage.setItem(localStorageinputSearch, searchQuery);
             }
         } catch (err) {
             setError(
