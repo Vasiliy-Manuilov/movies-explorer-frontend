@@ -2,7 +2,7 @@ import './SearchForm.css';
 import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText, nameStorageKey }) {
+function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText }) {
   const [inputSearch, setInputSearch] = useState(getDefaultSearchText);
   const [isEmptyQueryError, setIsEmptyQueryError] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -54,7 +54,7 @@ function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText, nameS
           Найти
         </button>
       </form>
-      <FilterCheckbox tumbler={tumbler} setTumbler={setTumbler} nameStorageKey={nameStorageKey} />
+      <FilterCheckbox checked={tumbler} onChange={setTumbler} label="Короткометражки" />
     </section>
   );
 }
