@@ -1,9 +1,11 @@
 import './FormEntrance.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 
 function FormEntrance(props) {
-  const { title, children, submit, error, question, link, path } = props;
+  const { title, submit, question, link, path } = props;
+  const {pathname}  = useLocation();
+
   return (
     <section className='form-entrance'>
       <Link to='/'>
@@ -15,7 +17,17 @@ function FormEntrance(props) {
       </Link>
       <h2 className='form-entrance__title'>{title}</h2>
       <form noValidate>
-        <>{children}</>
+        {pathname === '/signup'  && (<label className='form-entrance__label'>
+          Имя
+          <input
+            type='text'
+            className='form-entrance__input'
+            minLength='2'
+            maxLength='30'
+            required
+          />
+          <span className='form-entrance__error'></span>
+        </label>)}
         <label className='form-entrance__label'>
           E-mail
           <input
@@ -24,7 +36,6 @@ function FormEntrance(props) {
             minLength='2'
             maxLength='30'
             required
-            defaultValue='pochta@yandex.ru'
           />
           <span className='form-entrance__error'></span>
         </label>
@@ -37,7 +48,7 @@ function FormEntrance(props) {
             maxLength='20'
             required
           />
-          <span className='form-entrance__error'>{error}</span>
+          <span className='form-entrance__error'></span>
         </label>
         <button type='submit' className='form-entrance__btn-submit'>
           {submit}

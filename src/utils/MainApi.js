@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.list-movies.nomoredomainsicu.ru/';
 
-function checkResponse(res) {
+export function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
@@ -81,7 +81,7 @@ export function deleteMovie(movieId) {
   }).then(checkResponse);
 }
 
-export function getMovies() {
+export function getSavedMovies() {
   return fetch(`${BASE_URL}movies/`, {
     method: 'GET',
     headers: {

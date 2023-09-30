@@ -8,10 +8,10 @@ function getSearchedMovies(movies, searchQuery) {
     );
 }
 
-export function useSearchMovies(fetcher, getInitialMovies, localStorageCards, localStorageinputSearch ) {
+export function useSearchMovies(fetcher, cache) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [movies, setMovies] = useState(getInitialMovies)
+    const [movies, setMovies] = useState(cache.getCachedMovies)
 
     const search = async (searchQuery) => {
         setIsLoading(true);
@@ -21,15 +21,15 @@ export function useSearchMovies(fetcher, getInitialMovies, localStorageCards, lo
             let filteredMovies = getSearchedMovies(movies, searchQuery);
             setMovies(filteredMovies);
             if (filteredMovies.length > 0) {
-                localStorage.setItem(localStorageCards, JSON.stringify(filteredMovies));
-                localStorage.setItem(localStorageinputSearch, searchQuery);
+                cache.saveMoviesToCache(filteredMovies);
+                cache.saveSearchToCache(searchQuery);
             }
         } catch (err) {
             setError(
                 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
             );
-            localStorage.removeItem('inputSearch');
-            localStorage.removeItem('cards');
+            cache.removeMoviesFromCache()
+            cache.removeSearchFromCache();
             console.error(err);
         } finally {
             setIsLoading(false);
