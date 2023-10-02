@@ -1,10 +1,11 @@
 export const BASE_URL = 'https://api.list-movies.nomoredomainsicu.ru/';
 
-export function checkResponse(res) {
+export async function checkResponse(res) {
+  const data = await res.json()
   if (res.ok) {
-    return res.json();
+    return data;
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
+  return Promise.reject(`Ошибка: ${res.status}, ${data.message}`);
 }
 
 export function register(name, email, password) {

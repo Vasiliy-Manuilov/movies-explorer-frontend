@@ -2,8 +2,12 @@ import { getMovies } from "../../utils/MoviesApi";
 import { moviesCache } from "../../utils/MoviesCache";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { MoviesFragment } from "../MoviesFragment/MoviesFragment";
+import Header from "../Header/Header";
+import {useCurrentUser} from "../../contexts/CurrentUserContext";
+import Footer from "../Footer/Footer";
 
 function Movies() {
+  const { currentUser } = useCurrentUser()
 
   const renderCard = (card) => <MoviesCard key={card.id} card={card}>
     <button
@@ -15,13 +19,17 @@ function Movies() {
     />
   </MoviesCard>
 
-  return <main>
-    <MoviesFragment
-      fetcher={getMovies}
-      cache={moviesCache}
-      renderCard={renderCard}
-    />
-  </main>
+  return <>
+    <Header loggedIn={!!currentUser} color='white' />
+    <main>
+      <MoviesFragment
+        fetcher={getMovies}
+        cache={moviesCache}
+        renderCard={renderCard}
+      />
+    </main>
+    <Footer />
+  </>
 }
 
 export default Movies;

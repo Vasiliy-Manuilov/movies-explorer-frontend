@@ -1,7 +1,12 @@
 import './Profile.css';
+import {useCurrentUser} from "../../contexts/CurrentUserContext";
+import Header from "../Header/Header";
 
 function Profile() {
-  return (
+  const { currentUser } = useCurrentUser()
+
+  return <>
+    <Header loggedIn={!!currentUser} color='white' />
     <main className='profile'>
       <h2 className='profile__title'>Привет, Виталий!</h2>
       <form className='profile__form'>
@@ -34,7 +39,7 @@ function Profile() {
       </form>
       <button className='profile__btn profile__btn_theme_red'>Выйти из аккаунта</button>
     </main>
-  );
+  </>
 }
 
 export default Profile;

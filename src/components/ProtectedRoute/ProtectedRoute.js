@@ -1,11 +1,7 @@
-import React from 'react';
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ component: Component, ...props  }) => {
-  return (
-    true ? <Component {...props} /> : <Navigate to="/" replace/>
-)}
+const ProtectedRoute = ({ isAllowed, component: Component, ...props }) => {
+  return  isAllowed ? <Component {...props} /> : <Navigate to="/" replace/>
+}
 
 export default ProtectedRoute;
-
-
