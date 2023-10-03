@@ -4,6 +4,7 @@
   justify-content: center;
   width: 396px;
   color: #000;
+  position: relative;
 }
 
 .form-entrance__title {
@@ -30,6 +31,23 @@
 .form-entrance__btn-submit:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.form-entrance__btn-submit_disabled {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+}
+
+.form-entrance__response-text {
+  text-align: center;
+  display: block;
+  color: #FF004C;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13.31px; 
+  width: 100%;
+  position: absolute;
+  bottom: 100px; 
 }
 
 .form-entrance__text-under-btn {

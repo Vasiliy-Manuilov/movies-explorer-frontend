@@ -31,6 +31,7 @@
 .form-field__error {
     position: absolute;
     color: #FF3055;
-    bottom: -31px;
+    height: 24px;    
+    bottom: -37px;
     left: 0;
 }
