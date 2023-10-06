@@ -8,7 +8,7 @@ const createCache = ({ moviesKey, searchKey, shortsOnlyKey }) => {
     const removeSearchFromCache = () => localStorage.removeItem(searchKey);
 
     const getCachedShortsOnly = () => JSON.parse(localStorage.getItem(shortsOnlyKey)) || false;
-    const saveShortsOnlyToCache = (tumbler) => localStorage.setItem(shortsOnlyKey, tumbler);
+    const saveShortsOnlyToCache = (tumbler) => localStorage.setItem(shortsOnlyKey, tumbler);    
 
     return {
         saveMoviesToCache,
@@ -20,7 +20,7 @@ const createCache = ({ moviesKey, searchKey, shortsOnlyKey }) => {
         removeSearchFromCache,
     
         getCachedShortsOnly,
-        saveShortsOnlyToCache,
+        saveShortsOnlyToCache,        
     }
 }
 

@@ -5,20 +5,21 @@ import { useValidationForm } from '../Hooks/useValidtingForm';
 import { login } from '../../utils/MainApi';
 import { useSubmitForm } from '../Hooks/useSubmitForm';
 import { useNavigate } from 'react-router-dom';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { useCurrentUser } from '../Hooks/useCurrentUser';
 
 function Login() {
   const { values, errors, isValid, set } = useValidationForm();
   const { submit, error } = useSubmitForm(login, onSuccess);
   const navigate = useNavigate();
-  const { setCurrentUser } = useCurrentUser();
+  const { reloadUser, setIsLoggedIn } = useCurrentUser();
 
   function handleSubmit() {
     submit(values.email, values.password);
   }
-  function onSuccess(user) {
-    setCurrentUser(user);
-    navigate('/movies');
+  function onSuccess() {
+    setIsLoggedIn(true); 
+    reloadUser();
+    navigate('/movies', { replace: true });
   }
 
   return (

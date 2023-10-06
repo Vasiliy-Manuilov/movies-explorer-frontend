@@ -1,5 +1,5 @@
 import './App.css';
-import {CurrentUserProvider} from "../../contexts/CurrentUserContext";
+import {CurrentUserProvider} from "../Hooks/useCurrentUser";
 import {AppRoutes} from "../AppRoutes/AppRoutes";
 
 function App() {

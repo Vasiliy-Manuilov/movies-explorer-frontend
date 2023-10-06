@@ -1,48 +1,52 @@
-import React, {useContext, useEffect, useState} from "react";
-import { getUser } from "../utils/MainApi";
-import {useNavigate} from "react-router-dom";
+import React from 'react';
 
-const CurrentUserContext = React.createContext(null);
+export const CurrentUserContext = React.createContext(null);
 
-export const CurrentUserProvider = ({ children }) => {
-    const [ currentUser, setCurrentUser ] = useState()
-    const navigate = useNavigate();
+// import React, { useContext, useEffect, useState } from 'react';
+// import { getUser } from '../utils/MainApi';
 
-    useEffect(() => {
-        reloadUser()
-            .then(() => {
-                navigate('/movies', { replace: true });                
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-        // eslint-disable-next-line
-    }, []);
+// const CurrentUserContext = React.createContext(null);
 
-    const reloadUser = () => {
-      return getUser()
-        .then((user) => {
-          setCurrentUser(user);
-        })
-    };
+// export const CurrentUserProvider = ({ children }) => {
+//   const [currentUser, setCurrentUser] = useState();
+//   const [isLoading, setIsLoading] = useState(true)
 
-    const currentUserContextValue = {
-        currentUser,
-        setCurrentUser,
-        reloadUser,
-    }
+//   useEffect(() => {
+//     reloadUser()
+//       .catch((err) => {
+//         console.error(err);
+//       });
+//     // eslint-disable-next-line
+//   }, []);
 
-    return <CurrentUserContext.Provider value={currentUserContextValue}>
-        { children }
-    </CurrentUserContext.Provider>
-}
+//   const reloadUser = () => {
+//     setIsLoading(true)
+//     return getUser().then((user) => {
+//       setCurrentUser(user);
+//       setIsLoading(false)
+//     });
+//   };
 
-export const useCurrentUser = () => {
-    const context = useContext(CurrentUserContext)
+//   const currentUserContextValue = {
+//     currentUser,
+//     setCurrentUser,
+//     reloadUser,
+//     isLoading,
+//   };
 
-    if (!context) {
-        throw new Error('Контекст текущего пользлвателя не определен')
-    }
+//   return (
+//     <CurrentUserContext.Provider value={currentUserContextValue}>
+//       {children}
+//     </CurrentUserContext.Provider>
+//   );
+// };
 
-    return context
-}
+// export const useCurrentUser = () => {
+//   const context = useContext(CurrentUserContext);
+
+//   if (!context) {
+//     throw new Error('Контекст текущего пользлвателя не определен');
+//   }
+
+//   return context;
+// };
