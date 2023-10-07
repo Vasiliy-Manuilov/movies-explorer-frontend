@@ -10,17 +10,10 @@ import { limitsByScreenSize } from '../../utils/MoviesPaginationLimitsByScreen';
 
 export function MoviesFragment({ fetcher, cache, renderCard, location }) {
   const screenSize = useScreenSize();
-  
-  const { movies, isLoading, error, search } = useSearchMovies(
-    fetcher,
-    cache
-  );
 
-  const {
-    filteredMovies,
-    setShortsOnly,
-    shortsOnly
-  } = useShortsMoviesFilter(
+  const { movies, isLoading, error, search } = useSearchMovies(fetcher, cache);
+
+  const { filteredMovies, setShortsOnly, shortsOnly } = useShortsMoviesFilter(
     movies,
     cache.getCachedShortsOnly,
     cache.saveShortsOnlyToCache
@@ -36,7 +29,8 @@ export function MoviesFragment({ fetcher, cache, renderCard, location }) {
   else if (filteredMovies && filteredMovies.length === 0)
     errorText = 'Ничего не найдено';
 
-  return <div calss="movies">
+  return (
+    <div calss='movies'>
       <SearchForm
         onSearch={search}
         getDefaultSearchText={cache.getCachedSearch}
@@ -47,12 +41,19 @@ export function MoviesFragment({ fetcher, cache, renderCard, location }) {
       {errorText && !isLoading && (
         <div className='movies__text-error'>{errorText}</div>
       )}
-      {!isLoading && paginatedMovies && (
+      {location === 'movies' && !isLoading && paginatedMovies && (
         <MoviesCardList
           cards={paginatedMovies}
           showMoreCards={hasMore ? loadMore : undefined}
           renderCard={renderCard}
         />
       )}
+      {location === 'savedMovie' && !isLoading && filteredMovies && (
+        <MoviesCardList
+          cards={filteredMovies}          
+          renderCard={renderCard}
+        />
+      )}
     </div>
+  );
 }

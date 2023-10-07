@@ -29,6 +29,7 @@ function SavedMovies() {
           fetcher={getSavedMovies}
           cache={savedMoviesCache}
           renderCard={renderCard}
+          location = {'savedMovie'}
         />
       </main>
       <Footer />
