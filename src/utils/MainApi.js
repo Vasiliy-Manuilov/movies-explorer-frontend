@@ -1,7 +1,7 @@
 export const BASE_URL = 'https://api.list-movies.nomoredomainsicu.ru/';
 
 export async function checkResponse(res) {
-  const data = await res.json()
+  const data = await res.json();
   if (res.ok) {
     return data;
   }
@@ -68,7 +68,7 @@ export function addMovie(movie) {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify({ movie }),
+    body: JSON.stringify(movie),
   }).then(checkResponse);
 }
 
@@ -89,5 +89,5 @@ export function getSavedMovies() {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-  }).then(checkResponse); 
+  }).then(checkResponse);
 }

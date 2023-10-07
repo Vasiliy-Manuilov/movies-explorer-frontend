@@ -8,9 +8,9 @@ import { useMoviesPagination } from '../Hooks/useMoviesPagination';
 import { useShortsMoviesFilter } from '../Hooks/useShortsMoviesFilter';
 import { limitsByScreenSize } from '../../utils/MoviesPaginationLimitsByScreen';
 
-export function MoviesFragment({ fetcher, cache, renderCard }) {
+export function MoviesFragment({ fetcher, cache, renderCard, location }) {
   const screenSize = useScreenSize();
-
+  
   const { movies, isLoading, error, search } = useSearchMovies(
     fetcher,
     cache

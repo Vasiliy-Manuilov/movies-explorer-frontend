@@ -48,11 +48,7 @@
   background: #f9f9f9 url(../../images/icon__favorite-inactive.svg) center no-repeat;
 }
 
-.card__button_delete {
-  background: none;
-}
-
-.card__button_delete:hover {
+.card__button_delete {  
   background: #f9f9f9 url(../../images/icon__delete-favorite.svg) center no-repeat;
 }
 

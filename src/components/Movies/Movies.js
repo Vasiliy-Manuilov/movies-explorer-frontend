@@ -5,22 +5,22 @@ import { MoviesFragment } from '../MoviesFragment/MoviesFragment';
 import Header from '../Header/Header';
 import { useCurrentUser } from '../Hooks/useCurrentUser';
 import Footer from '../Footer/Footer';
-// import { useSavedMovies } from '../Hooks/useSavedMovies';
+import { useSavedMovies } from '../Hooks/useSavedMovies';
 
 function Movies() {
   const { isLoggedIn } = useCurrentUser();
-
-  // const { isSaved } = useSavedMovies();
+  
+  const { actionWithMovie } = useSavedMovies();
 
   const renderCard = (movie) => (
-    <MoviesCard key={movie.id} card={movie}>
+    <MoviesCard key={movie.id} card={movie} location={'movies'}>
       <button
         type='button'
         className={`card__button card__button${
           // isSaved(movie.id) ? '_active' : '_inactive'
           true ? '_active' : '_inactive'
         }`}
-        onClick={() => console.log('FAVOURITE')}
+        onClick={() => actionWithMovie(movie)}
       />
     </MoviesCard>
   );
@@ -33,6 +33,7 @@ function Movies() {
           fetcher={getMovies}
           cache={moviesCache}
           renderCard={renderCard}
+          location={'movies'}
         />
       </main>
       <Footer />
