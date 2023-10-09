@@ -6,12 +6,16 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
-import { useCurrentUser} from '../Hooks/useCurrentUser';
+import { useCurrentUser } from '../Hooks/useCurrentUser';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Loader from '../Loader/Loader';
 
 export const AppRoutes = () => {
+  const { isLoggedIn, isLoading } = useCurrentUser();
 
-  const { isLoggedIn } = useCurrentUser();
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Routes>

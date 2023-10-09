@@ -11,13 +11,12 @@ function Register() {
   const { values, errors, isValid, set } = useValidationForm();
   const { submit, error } = useSubmitForm(register, onSuccess);
   const navigate = useNavigate();
-  const { reloadUser, setIsLoggedIn } = useCurrentUser();
+  const { reloadUser } = useCurrentUser();
 
   function handleSubmit() {
     submit(values.name, values.email, values.password);
   }
   function onSuccess() {
-    setIsLoggedIn(true);
     reloadUser();
     navigate('/movies', { replace: true });
   }

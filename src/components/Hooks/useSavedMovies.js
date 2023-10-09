@@ -1,38 +1,63 @@
-import { addMovie, deleteMovie } from '../../utils/MainApi';
-// import { useCurrentUser } from '../Hooks/useCurrentUser';
+import {
+  addMovie as apiAddMovie,
+  deleteMovie as apiDeleteMovie,
+  getSavedMovies,
+} from '../../utils/MainApi';
+import { useCurrentUser } from '../Hooks/useCurrentUser';
+import { convertMovie } from '../../utils/MoviesApi';
+import { useEffect, useState } from 'react';
 
-export function useSavedMovies(fetcher) {
-  // const { currentUser } = useCurrentUser();
-  const actionWithMovie = (movie) => {
-    console.log(movie)          
-    if (false) {
-      return deleteMovie(movie)
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
-    } else {
-      return addMovie({
-        country: movie.country,
-        director: movie.director,
-        duration: movie.duration,
-        year: movie.year,
-        description: movie.description,
-        image: `https://api.nomoreparties.co${movie.image.url}`,
-        trailerLink: movie.trailerLink,
-        thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,        
-        movieId: movie.id,
-        nameRU: movie.nameRU,
-        nameEN: movie.nameEN,
-      })
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
-    }
+export function useSavedMovies() {
+  const { savedMoviesArray, setSavedMoviesArray } = useCurrentUser();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    reloadSavedMovies();
+    // eslint-disable-next-line
+  }, []);
+
+  const reloadSavedMovies = () => {
+    setIsLoading(true);
+    return getSavedMovies()
+      .then((movies) => setSavedMoviesArray(movies))
+      .finally(() => setIsLoading(false));
   };
 
-  // isSaved(id) {
-  //   return
-  // }
+  const getSavedMovieByMovieId = (movieId) => {
+    return savedMoviesArray.find(
+      (savedMovie) => savedMovie.movieId === movieId
+    );
+  };
+
+  const isSaved = (movieId) => {
+    return savedMoviesArray.some(
+      (savedMovie) => savedMovie.movieId === movieId
+    );
+  };
+
+  const saveMovie = (movie) => {
+    return apiAddMovie(convertMovie(movie))
+      .then((savedMovie) => setSavedMoviesArray((arr) => [...arr, savedMovie]))
+      .catch((err) => console.log(err));
+  };
+
+  function deleteMovie(movie) {
+    return apiDeleteMovie(movie._id)
+      .then(() =>
+        setSavedMoviesArray((arr) =>
+          arr.filter((item) => item._id !== movie._id)
+        )
+      )
+      .catch((err) => console.log(err));
+  }
 
   return {
-    actionWithMovie,
+    savedMovies: savedMoviesArray,
+    getSavedMovieByMovieId,
+    reloadSavedMovies,
+    deleteMovie,
+    saveMovie,
+    isSaved,
+    isLoading,
   };
 }

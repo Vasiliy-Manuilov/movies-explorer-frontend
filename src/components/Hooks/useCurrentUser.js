@@ -1,38 +1,33 @@
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import { getUser } from '../../utils/MainApi';
 
 export const CurrentUserProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [savedMoviesArray, setSavedMoviesArray] = useState([]);
 
   useEffect(() => {
-    reloadUser()
-      .then(() => {
-      setIsLoggedIn(true)
-      navigate(location.pathname, { replace: true });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    reloadUser();
     // eslint-disable-next-line
   }, []);
 
   const reloadUser = () => {
-    return getUser().then((user) => {
-      setCurrentUser(user);
-    });
+    setIsLoading(true);
+    return getUser()
+      .then((user) => setCurrentUser(user))
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   };
 
   const currentUserContextValue = {
     currentUser,
+    isLoading,
     setCurrentUser,
-    isLoggedIn,
-    setIsLoggedIn,
+    isLoggedIn: Boolean(currentUser),
     reloadUser,
+    savedMoviesArray,
+    setSavedMoviesArray,
   };
 
   return (

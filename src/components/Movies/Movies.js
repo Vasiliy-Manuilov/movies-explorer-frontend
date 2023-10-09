@@ -1,40 +1,83 @@
-import { getMovies } from '../../utils/MoviesApi';
 import { moviesCache } from '../../utils/MoviesCache';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import { MoviesFragment } from '../MoviesFragment/MoviesFragment';
 import Header from '../Header/Header';
 import { useCurrentUser } from '../Hooks/useCurrentUser';
 import Footer from '../Footer/Footer';
 import { useSavedMovies } from '../Hooks/useSavedMovies';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
+import { useSearchMovies } from '../Hooks/useSeachMovies';
+import { useScreenSize } from '../Hooks/useScreenSize';
+import { useMoviesPagination } from '../Hooks/useMoviesPagination';
+import { useShortsMoviesFilter } from '../Hooks/useShortsMoviesFilter';
+import { limitsByScreenSize } from '../../utils/MoviesPaginationLimitsByScreen';
+import './Movies.css';
 
 function Movies() {
   const { isLoggedIn } = useCurrentUser();
-  
-  const { actionWithMovie } = useSavedMovies();
+  const { saveMovie, deleteMovie, isSaved, getSavedMovieByMovieId } =
+    useSavedMovies();
+  const screenSize = useScreenSize();
 
-  const renderCard = (movie) => (
-    <MoviesCard key={movie.id} card={movie} location={'movies'}>
-      <button
-        type='button'
-        className={`card__button card__button${
-          // isSaved(movie.id) ? '_active' : '_inactive'
-          true ? '_active' : '_inactive'
-        }`}
-        onClick={() => actionWithMovie(movie)}
-      />
-    </MoviesCard>
+  const { movies, isLoading, error, search } = useSearchMovies();
+
+  const { filteredMovies, setShortsOnly, shortsOnly } = useShortsMoviesFilter(
+    movies,
+    moviesCache.getCachedShortsOnly,
+    moviesCache.saveShortsOnlyToCache
   );
+
+  const { paginatedMovies, loadMore, hasMore } = useMoviesPagination(
+    filteredMovies,
+    limitsByScreenSize[screenSize]
+  );
+
+  let errorText = '';
+  if (error) errorText = error;
+  else if (filteredMovies && filteredMovies.length === 0)
+    errorText = 'Ничего не найдено';
+
+  const renderCard = (movie) => {
+    const saved = isSaved(movie.id);
+    const handleClick = saved
+      ? () => deleteMovie(getSavedMovieByMovieId(movie.id))
+      : () => saveMovie(movie);
+
+    return (
+      <MoviesCard key={movie.id} card={movie} location={'movies'}>
+        <button
+          type='button'
+          className={`card__button card__button${
+            saved ? '_active' : '_inactive'
+          }`}
+          onClick={handleClick}
+        />
+      </MoviesCard>
+    );
+  };
 
   return (
     <>
       <Header loggedIn={isLoggedIn} color='white' />
       <main>
-        <MoviesFragment
-          fetcher={getMovies}
-          cache={moviesCache}
-          renderCard={renderCard}
-          location={'movies'}
+        <SearchForm
+          onSearch={search}
+          getDefaultSearchText={moviesCache.getCachedSearch}
+          tumbler={shortsOnly}
+          setTumbler={setShortsOnly}
         />
+        {isLoading && <Preloader />}
+        {errorText && !isLoading && (
+          <div className='movies__text-error'>{errorText}</div>
+        )}
+        {!isLoading && paginatedMovies && (
+          <MoviesCardList
+            cards={paginatedMovies}
+            showMoreCards={hasMore ? loadMore : undefined}
+            renderCard={renderCard}
+          />
+        )}
       </main>
       <Footer />
     </>

@@ -20,7 +20,7 @@ const createCache = ({ moviesKey, searchKey, shortsOnlyKey }) => {
         removeSearchFromCache,
     
         getCachedShortsOnly,
-        saveShortsOnlyToCache,        
+        saveShortsOnlyToCache,
     }
 }
 
@@ -28,10 +28,4 @@ export const moviesCache = createCache({
     moviesKey: 'cards',
     searchKey: 'inputSearch',
     shortsOnlyKey: 'shortFilmsTumblerMovies'
-});
-
-export const savedMoviesCache = createCache({
-    moviesKey: 'savedCards',
-    searchKey: 'savedInputSearch',
-    shortsOnlyKey: 'savedShortFilmsTumblerMovies'
 });
