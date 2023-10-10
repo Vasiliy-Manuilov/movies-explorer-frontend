@@ -34,8 +34,16 @@ export const AppRoutes = () => {
         path='/profile'
         element={<ProtectedRoute isAllowed={isLoggedIn} component={Profile} />}
       />
-      <Route path='/signup' element={<Register />} />
-      <Route path='/signin' element={<Login />} />
+      <Route
+        path='/signup'
+        element={
+          <ProtectedRoute isAllowed={!isLoggedIn} component={Register} />
+        }
+      />
+      <Route
+        path='/signin'
+        element={<ProtectedRoute isAllowed={!isLoggedIn} component={Login} />}
+      />
       <Route path='*' element={<PageNotFound />} />
     </Routes>
   );
