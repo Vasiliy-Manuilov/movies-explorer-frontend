@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { MAX_SHORT_DURATION } from "../../utils/constants";
 
 export function useShortsMoviesFilter(
   movies,
@@ -13,7 +14,7 @@ export function useShortsMoviesFilter(
   };
 
   const filteredMovies = useMemo(() => {
-    if (shortsOnly) return movies?.filter(({ duration }) => duration <= 40);
+    if (shortsOnly) return movies?.filter(({ duration }) => duration <= MAX_SHORT_DURATION);
     return movies;
   }, [movies, shortsOnly]);
 
