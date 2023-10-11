@@ -62,7 +62,7 @@
   transform: translateX(19px);
 }
 
-@media (max-width: 865px) {
+@media (max-width: 1279px) {
   .filterCheckbox {
     flex-direction: row-reverse; 
     padding-top: 31px; 
@@ -73,7 +73,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 747px) {
   .filterCheckbox {
     justify-content: center;
     padding-top: 39px;

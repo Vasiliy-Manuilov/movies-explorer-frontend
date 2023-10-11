@@ -3,6 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 18px 70px;
+  position: relative;
+  z-index: 1;
 }
 
 .header_theme_blue {
@@ -13,13 +15,13 @@
   background-color: #fff;
 }
 
-@media (max-width: 865px) {
+@media (max-width: 1279px) {
   .header {
     padding: 15px 30px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 747px) {
   .header {
     padding: 15px 14px;
   }
