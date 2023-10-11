@@ -6,6 +6,7 @@ import { login } from '../../utils/MainApi';
 import { useSubmitForm } from '../Hooks/useSubmitForm';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentUser } from '../Hooks/useCurrentUser';
+import { EMAIL_PATTERN } from "../../utils/constants.js";
 
 function Login() {
   const { values, errors, isValid, set } = useValidationForm();
@@ -40,6 +41,7 @@ function Login() {
           errorMessage={errors.email}
           minLength={2}
           maxLength={30}
+          pattern={EMAIL_PATTERN}
           required
           label='E-mail'
           onChange={set}

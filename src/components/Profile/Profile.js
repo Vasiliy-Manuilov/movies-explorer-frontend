@@ -7,6 +7,7 @@ import { Button } from '../Button/Button';
 import { useSubmitForm } from '../Hooks/useSubmitForm';
 import { updateUser, logout } from '../../utils/MainApi';
 import { useNotification } from '../Hooks/useNotification';
+import { EMAIL_PATTERN } from "../../utils/constants.js";
 
 function Profile() {
   const { currentUser, setCurrentUser } = useCurrentUser();
@@ -76,6 +77,7 @@ function Profile() {
               <input
                 name='email'
                 value={values.email}
+                pattern={EMAIL_PATTERN}
                 onChange={set}
                 className='profile__input'
                 type='email'

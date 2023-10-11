@@ -6,6 +6,7 @@ import { useSubmitForm } from '../Hooks/useSubmitForm';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../utils/MainApi';
 import { useCurrentUser } from '../Hooks/useCurrentUser';
+import { EMAIL_PATTERN } from "../../utils/constants.js";
 
 function Register() {
   const { values, errors, isValid, set } = useValidationForm();
@@ -49,6 +50,7 @@ function Register() {
           type='email'
           minLength={2}
           maxLength={30}
+          pattern={EMAIL_PATTERN}
           required
           label='E-mail'
           value={values.email}

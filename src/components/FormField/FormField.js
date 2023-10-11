@@ -9,7 +9,8 @@ export function FormField({
     type,
     required = true,
     minLength,
-    maxLength
+    maxLength,
+    pattern,
 }) {
 
     return <div className="form-field">
@@ -22,6 +23,7 @@ export function FormField({
                 minLength={minLength}
                 maxLength={maxLength}
                 required={required}
+                pattern={pattern}
                 value={value}
                 onChange={onChange}
             />
