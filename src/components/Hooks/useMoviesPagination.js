@@ -12,7 +12,9 @@ export function useMoviesPagination(movies, { limit, paginationLimit }) {
     setVisibleCount((count) => count + paginationLimit);
   };
 
+  const reset = () => setVisibleCount(limit);
+
   const hasMore = movies?.length > paginatedMovies?.length;
 
-  return { paginatedMovies, loadMore, hasMore };
+  return { paginatedMovies, loadMore, reset, hasMore };
 }

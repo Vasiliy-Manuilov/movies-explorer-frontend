@@ -1,3 +1,4 @@
+import './Movies.css';
 import { moviesCache } from '../../utils/MoviesCache';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Header from '../Header/Header';
@@ -12,7 +13,7 @@ import { useScreenSize } from '../Hooks/useScreenSize';
 import { useMoviesPagination } from '../Hooks/useMoviesPagination';
 import { useShortsMoviesFilter } from '../Hooks/useShortsMoviesFilter';
 import { limitsByScreenSize } from '../../utils/MoviesPaginationLimitsByScreen';
-import './Movies.css';
+import {useEffect} from "react";
 
 function Movies() {
   const { isLoggedIn } = useCurrentUser();
@@ -28,10 +29,15 @@ function Movies() {
     moviesCache.saveShortsOnlyToCache
   );
 
-  const { paginatedMovies, loadMore, hasMore } = useMoviesPagination(
+  const { paginatedMovies, loadMore, hasMore, reset } = useMoviesPagination(
     filteredMovies,
     limitsByScreenSize[screenSize]
   );
+
+  useEffect(() => {
+    reset();
+    // eslint-disable-next-line
+  }, [screenSize]);
 
   let errorText = '';
   if (error) errorText = error;
