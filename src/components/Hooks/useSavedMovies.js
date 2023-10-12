@@ -1,60 +1,49 @@
 import {
   addMovie as apiAddMovie,
   deleteMovie as apiDeleteMovie,
-  getSavedMovies,
 } from '../../utils/MainApi';
-import { useCurrentUser } from '../Hooks/useCurrentUser';
 import { convertMovie } from '../../utils/MoviesApi';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { GlobalStorageContext } from '../../contexts/GlobalStorageContext';
 
 export function useSavedMovies() {
-  const { savedMoviesArray, setSavedMoviesArray } = useCurrentUser();
-  const [isLoading, setIsLoading] = useState(false);
+  const context = useContext(GlobalStorageContext);
 
-  useEffect(() => {
-    reloadSavedMovies();
-    // eslint-disable-next-line
-  }, []);
+  if (!context) {
+    throw new Error('Контекст глобального хранилища не определен');
+  }
 
-  const reloadSavedMovies = () => {
-    setIsLoading(true);
-    return getSavedMovies()
-      .then((movies) => setSavedMoviesArray(movies))
-      .finally(() => setIsLoading(false));
-  };
+  const {
+    data: savedMovies,
+    isLoading,
+    setData: setSavedMovies,
+  } = context.savedMoviesRequest;
 
   const getSavedMovieByMovieId = (movieId) => {
-    return savedMoviesArray.find(
-      (savedMovie) => savedMovie.movieId === movieId
-    );
+    return savedMovies.find((savedMovie) => savedMovie.movieId === movieId);
   };
 
   const isSaved = (movieId) => {
-    return savedMoviesArray.some(
-      (savedMovie) => savedMovie.movieId === movieId
-    );
+    return savedMovies.some((savedMovie) => savedMovie.movieId === movieId);
   };
 
   const saveMovie = (movie) => {
     return apiAddMovie(convertMovie(movie))
-      .then((savedMovie) => setSavedMoviesArray((arr) => [...arr, savedMovie]))
+      .then((savedMovie) => setSavedMovies((arr) => [...arr, savedMovie]))
       .catch((err) => console.log(err));
   };
 
   function deleteMovie(movie) {
     return apiDeleteMovie(movie._id)
       .then(() =>
-        setSavedMoviesArray((arr) =>
-          arr.filter((item) => item._id !== movie._id)
-        )
+        setSavedMovies((arr) => arr.filter((item) => item._id !== movie._id))
       )
       .catch((err) => console.log(err));
   }
 
   return {
-    savedMovies: savedMoviesArray,
+    savedMovies,
     getSavedMovieByMovieId,
-    reloadSavedMovies,
     deleteMovie,
     saveMovie,
     isSaved,

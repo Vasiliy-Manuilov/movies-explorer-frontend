@@ -1,13 +1,15 @@
 import './App.css';
-import {CurrentUserProvider} from "../Hooks/useCurrentUser";
-import {AppRoutes} from "../AppRoutes/AppRoutes";
+import { AppRoutes } from '../AppRoutes/AppRoutes';
+import { GlobalStorageProvider } from '../GlobalStorage/GlobalStorage';
 
 function App() {
-  return <CurrentUserProvider>
-    <div className='App'>
-      <AppRoutes />
-    </div>
-  </CurrentUserProvider>
+  return (
+    <GlobalStorageProvider>
+      <div className='App'>
+        <AppRoutes />
+      </div>
+    </GlobalStorageProvider>
+  );
 }
 
 export default App;

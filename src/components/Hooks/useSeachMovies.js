@@ -1,40 +1,30 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getSearchedMovies } from '../../utils/searchMovies';
-import { moviesCache } from '../../utils/MoviesCache';
-import { getMovies } from '../../utils/MoviesApi';
+import { MAX_SHORT_DURATION } from '../../utils/constants';
 
-export function useSearchMovies() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [movies, setMovies] = useState(moviesCache.getCachedMovies);
+export function useSearchMovies(movies, initialSearchParams, onSearch) {
+  const [searchParams, setSearchParams] = useState(initialSearchParams);
 
-  const search = async (searchQuery) => {
-    setIsLoading(true);
-    setError('');
-    try {
-      const movies = await getMovies();
-      let searchedMovies = getSearchedMovies(movies, searchQuery);
-      setMovies(searchedMovies);
-      if (searchedMovies.length > 0) {
-        moviesCache.saveMoviesToCache(searchedMovies);
-        moviesCache.saveSearchToCache(searchQuery);
-      }
-    } catch (err) {
-      setError(
-        'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-      );
-      moviesCache.removeMoviesFromCache();
-      moviesCache.removeSearchFromCache();
-      console.error(err);
-    } finally {
-      setIsLoading(false);
+  const searchedMovies = useMemo(() => {
+    if (!searchParams || !movies) {
+      return null;
     }
+    const filteredBySearch = getSearchedMovies(movies, searchParams.query);
+    if (searchParams.shortsOnly) {
+      return filteredBySearch?.filter(
+        ({ duration }) => duration <= MAX_SHORT_DURATION
+      );
+    }
+    return filteredBySearch;
+  }, [movies, searchParams]);
+
+  const search = (newSearchParams) => {
+    setSearchParams(newSearchParams);
+    onSearch?.(newSearchParams);
   };
 
   return {
-    movies,
-    error,
-    isLoading,
+    searchedMovies,
     search,
   };
 }

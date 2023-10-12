@@ -1,4 +1,3 @@
-import './Movies.css';
 import { moviesCache } from '../../utils/MoviesCache';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Header from '../Header/Header';
@@ -11,9 +10,10 @@ import Preloader from '../Preloader/Preloader';
 import { useSearchMovies } from '../Hooks/useSeachMovies';
 import { useScreenSize } from '../Hooks/useScreenSize';
 import { useMoviesPagination } from '../Hooks/useMoviesPagination';
-import { useShortsMoviesFilter } from '../Hooks/useShortsMoviesFilter';
 import { limitsByScreenSize } from '../../utils/MoviesPaginationLimitsByScreen';
-import {useEffect} from "react";
+import './Movies.css';
+import { useMovies } from '../Hooks/useMovies';
+import { useEffect } from 'react';
 
 function Movies() {
   const { isLoggedIn } = useCurrentUser();
@@ -21,16 +21,22 @@ function Movies() {
     useSavedMovies();
   const screenSize = useScreenSize();
 
-  const { movies, isLoading, error, search } = useSearchMovies();
-
-  const { filteredMovies, setShortsOnly, shortsOnly } = useShortsMoviesFilter(
+  const { movies, isLoading, isReloaded, error, reload } = useMovies();
+  const { searchedMovies, search } = useSearchMovies(
     movies,
-    moviesCache.getCachedShortsOnly,
-    moviesCache.saveShortsOnlyToCache
+    moviesCache.getCachedSearchParams(),
+    moviesCache.saveSearchParamsToCache
   );
 
+  const handleSearch = (searchParams) => {
+    if (!isReloaded) {
+      reload();
+    }
+    search(searchParams);
+  };
+
   const { paginatedMovies, loadMore, hasMore, reset } = useMoviesPagination(
-    filteredMovies,
+    searchedMovies,
     limitsByScreenSize[screenSize]
   );
 
@@ -41,7 +47,7 @@ function Movies() {
 
   let errorText = '';
   if (error) errorText = error;
-  else if (filteredMovies && filteredMovies.length === 0)
+  else if (searchedMovies && searchedMovies.length === 0)
     errorText = 'Ничего не найдено';
 
   const renderCard = (movie) => {
@@ -68,10 +74,9 @@ function Movies() {
       <Header loggedIn={isLoggedIn} color='white' />
       <main>
         <SearchForm
-          onSearch={search}
-          getDefaultSearchText={moviesCache.getCachedSearch}
-          tumbler={shortsOnly}
-          setTumbler={setShortsOnly}
+          onSearch={handleSearch}
+          defaultSearchParams={moviesCache.getCachedSearchParams()}
+          isQueryRequired
         />
         {isLoading && <Preloader />}
         {errorText && !isLoading && (

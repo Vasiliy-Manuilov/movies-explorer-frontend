@@ -2,33 +2,49 @@ import './SearchForm.css';
 import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText }) {
-  const [inputSearch, setInputSearch] = useState(getDefaultSearchText);
+const DEFAULT_SEARCH_PARAMS = {
+  query: '',
+  shortsOnly: false,
+};
+function SearchForm({ onSearch, defaultSearchParams, isQueryRequired }) {
+  const [params, setParams] = useState(
+    defaultSearchParams || DEFAULT_SEARCH_PARAMS
+  );
+
   const [isEmptyQueryError, setIsEmptyQueryError] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const activateInput = () => {
-    setIsInputFocused(true)
-    setIsEmptyQueryError(false)
-  }
+    setIsInputFocused(true);
+    setIsEmptyQueryError(false);
+  };
 
   function handleInputChange(evt) {
-    setIsEmptyQueryError(false)
-    setInputSearch(evt.target.value);
+    setIsEmptyQueryError(false);
+    setParams({ ...params, query: evt.target.value });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!inputSearch) {
+  function setShortsOnly(checked) {
+    if (isQueryRequired && !params.query) {
       setIsEmptyQueryError(true);
       return;
     }
-    onSearch(inputSearch);
+    const newParams = { ...params, shortsOnly: checked };
+    setParams(newParams);
+    onSearch(newParams);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!params.query) {
+      setIsEmptyQueryError(true);
+      return;
+    }
+    onSearch(params);
   }
 
-  let searchTypeClass = ""
-  if (isEmptyQueryError) searchTypeClass = "search_type_invalid"
-  else if (isInputFocused) searchTypeClass = "search_type_focus"
+  let searchTypeClass = '';
+  if (isEmptyQueryError) searchTypeClass = 'search_type_invalid';
+  else if (isInputFocused) searchTypeClass = 'search_type_focus';
 
   return (
     <section className='search-film'>
@@ -38,10 +54,10 @@ function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText }) {
         noValidate
       >
         <input
-          className="search__input"
+          className='search__input'
           placeholder='Фильм'
           type='text'
-          value={inputSearch || ""}
+          value={params.query || ''}
           onChange={handleInputChange}
           onFocus={activateInput}
           onBlur={() => setIsInputFocused(false)}
@@ -54,7 +70,11 @@ function SearchForm({ onSearch, tumbler, setTumbler, getDefaultSearchText }) {
           Найти
         </button>
       </form>
-      <FilterCheckbox checked={tumbler} onChange={setTumbler} label="Короткометражки" />
+      <FilterCheckbox
+        checked={params.shortsOnly}
+        onChange={setShortsOnly}
+        label='Короткометражки'
+      />
     </section>
   );
 }
