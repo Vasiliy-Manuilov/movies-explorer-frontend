@@ -1,0 +1,37 @@
+.form-field__label {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #a0a0a0; 
+    position: relative;   
+}
+
+.form-field__input {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000;
+    border: none;  
+    background-color: transparent;  
+    border-bottom: 1px solid #e8e8e8;
+    width: 100%;
+    padding: 3px 0 10px;
+    margin-bottom: 19px; 
+}
+
+.form-field__input:focus{
+    outline: none;
+    border-bottom: 1px solid #3456F3;
+}
+
+.form-field__input:invalid {
+    color: #FF3055; 
+}
+
+.form-field__error {
+    position: absolute;
+    color: #FF3055;
+    height: 24px;    
+    bottom: -37px;
+    left: 0;
+}

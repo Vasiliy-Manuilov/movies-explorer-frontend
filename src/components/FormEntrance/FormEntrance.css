@@ -1,21 +1,10 @@
 .form-entrance {
-  padding: 70px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 396px;
   color: #000;
-}
-
-.form-entrance__logo {
-  height: 38px;
-  width: 38px;
-  transition: opacity 0.2s linear;
-}
-
-.form-entrance__logo:hover {
-  opacity: 0.8;
-  cursor: pointer;
+  position: relative;
 }
 
 .form-entrance__title {
@@ -25,60 +14,16 @@
   line-height: 29px;
 }
 
-.form-entrance__label {
+.form-entrance__response-text {
+  text-align: center;
+  display: block;
+  color: #FF004C;
   font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  color: #a0a0a0; 
-  position: relative;   
-}
-
-.form-entrance__input {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-  color: #000;
-  border: none;  
-  background-color: transparent;  
-  border-bottom: 1px solid #e8e8e8;
+  font-size: 11px;
+  line-height: 13.31px; 
   width: 100%;
-  padding: 3px 0 10px;
-  margin-bottom: 19px; 
-}
-
-.form-entrance__input:focus{
-  outline: none;
-  border-bottom: 1px solid #3456F3;
-}
-
-.form-entrance__input:invalid {
-  color: #FF3055;
-}
-
-.form-entrance__error {
   position: absolute;
-  color: #FF3055;  
-  bottom: -31px;
-  left: 0;
-}
-
-.form-entrance__btn-submit {
-  border: none;
-  height: 45px; 
-  width: 100%; 
-  background-color: #3456F3;  
-  border-radius: 3px;
-  color: #fff;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  margin-top: 134px; 
-  padding: 0;
-}
-
-.form-entrance__btn-submit:hover {
-  opacity: 0.8;
-  cursor: pointer;
+  bottom: 70px; 
 }
 
 .form-entrance__text-under-btn {
@@ -98,6 +43,11 @@
 
 .form-entrance__link:hover {
   opacity: 0.7;
+}
+
+.form-entrance__container-button {
+  padding-top: 134px;
+  position: relative;
 }
 
 @media (max-width: 865px) {
@@ -123,8 +73,13 @@
     margin-top: 46px;
   }
 
+  .form-entrance__container-button {
+    padding-top: 267px;
+  }
+
   .form-entrance__text-under-btn {    
     font-size: 12px;
     line-height: 14.52px;
   }
+
 }

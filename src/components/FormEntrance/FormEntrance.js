@@ -1,56 +1,47 @@
-import './FormEntrance.css';
 import { Link } from 'react-router-dom';
-import logo from '../../images/logo.svg';
+import { LogoLink } from '../LogoLink/LogoLink';
+import './FormEntrance.css';
+import { Button } from '../Button/Button';
 
-function FormEntrance(props) {
-  const { title, children, submit, error, question, link, path } = props;
+export function FormEntrance({
+  children,
+  title,
+  submitText,
+  footerText,
+  footerLinkUrl,
+  footerLinkText,
+  isValid,
+  errorMessage,
+  onSubmit,
+}) {
+  const submit = (event) => {
+    event.preventDefault();
+    if (isValid) {
+      onSubmit();
+    }
+  };
+
   return (
     <section className='form-entrance'>
-      <Link to='/'>
-        <img
-          alt='Логотип Movies Explorer'
-          className='form-entrance__logo'
-          src={logo}
-        />
-      </Link>
+      <LogoLink />
       <h2 className='form-entrance__title'>{title}</h2>
-      <form noValidate>
-        <>{children}</>
-        <label className='form-entrance__label'>
-          E-mail
-          <input
-            type='email'
-            className='form-entrance__input'
-            minLength='2'
-            maxLength='30'
-            required
-            defaultValue='pochta@yandex.ru'
-          />
-          <span className='form-entrance__error'></span>
-        </label>
-        <label className='form-entrance__label'>
-          Пароль
-          <input
-            type='password'
-            className='form-entrance__input'
-            minLength='4'
-            maxLength='20'
-            required
-          />
-          <span className='form-entrance__error'>{error}</span>
-        </label>
-        <button type='submit' className='form-entrance__btn-submit'>
-          {submit}
-        </button>
+      <form noValidate onSubmit={submit}>
+        {children}
+        <div className='form-entrance__container-button'>
+          {errorMessage && (
+            <div className='form-entrance__response-text'>{errorMessage}</div>
+          )}
+          <Button type='submit' disabled={!isValid}>
+            {submitText}
+          </Button>
+        </div>
       </form>
       <p className='form-entrance__text-under-btn'>
-        {question}
-        <Link to={path} className='form-entrance__link'>
-          {link}
+        {footerText}
+        <Link to={footerLinkUrl} className='form-entrance__link'>
+          {footerLinkText}
         </Link>
       </p>
     </section>
   );
 }
-
-export default FormEntrance;
